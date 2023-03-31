@@ -63,9 +63,13 @@ class AttendanceController extends Controller
 
     public function end(Request $request)
     {
+        $user_id = Auth::id();
+        $yyyy_mm_dd = date_format(Carbon::now(), 'Y-m-d' );
         $end_time = Carbon::now();
-        // Attendance::where()
-        return view('index', $request);
+        Attendance::where('user_id','=',$user_id)
+        ->where('date', '=', $yyyy_mm_dd)
+        ->update(['end_time'=>$end_time]);
+        return redirect('/');
     }
 
     public function list(Request $request)
